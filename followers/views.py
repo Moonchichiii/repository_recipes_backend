@@ -2,8 +2,10 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
-from followers.models import Follow  # Import the Follow model from the correct module
+from followers.models import Follow  
 from .serializers import FollowSerializer
+
+
 
 # Create your views here.
 

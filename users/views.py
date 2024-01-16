@@ -1,17 +1,18 @@
+from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny  # Import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import generics
-from rest_framework.authtoken.views import ObtainAuthToken
-from .models import User
+from rest_framework import generics, serializers
 from .serializers import UserRegistrationSerializer
-from rest_framework import serializers
 
 class UserRegistrationView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserRegistrationSerializer
+
+    authentication_classes = []  # No authentication required for registration
+    permission_classes = [AllowAny]  # Allow any user to register
 
     def perform_create(self, serializer):
         password = serializer.validated_data['password']

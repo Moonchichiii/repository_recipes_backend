@@ -91,9 +91,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cloudinary',    
     'corsheaders',
-    'users',  
     
-    ]
+    'rest_framework',
+    
+    'users',
+    'profiles',
+    'posts',
+    'comments',
+    'likes',
+    'followers',
+    
+        ]
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",

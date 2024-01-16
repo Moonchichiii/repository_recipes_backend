@@ -3,9 +3,16 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import Like
-from .serializers import LikeSerializer, PostSerializer
+from .serializers import LikeSerializer
+
+from posts.serializers import PostSerializer
+
+
+from rest_framework.permissions import IsAuthenticated
+ 
 
 class LikeViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
 

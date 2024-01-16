@@ -1,20 +1,28 @@
-from utils.serializers import ImageUploadMixin
+from django.db import models
+from utils.image_service import upload_image
+from cloudinary.models import CloudinaryField
+from django.contrib.auth import get_user_model
+from rest_framework import serializers  
+
 from .models import Profile
 
-class ProfileSerializer(ImageUploadMixin, serializers.ModelSerializer):
-profile_image = serializers.ImageField(write_only=True, required=False)
+User = get_user_model()
 
-class Meta:
-    model = Profile
-    fields = '__all__'
+class ProfileSerializer(serializers.ModelSerializer):
 
-def create(self, validated_data):
-    image = validated_data.pop('profile_image', None)
-    profile = super().create(validated_data)
-    self.validate_image(image)
-    return self.save_image(profile, 'profile_image', image)
+    profile_image = serializers.ImageField(write_only=True, required=False)
 
-def update(self, instance, validated_data):
-    image = validated_data.pop('profile_image', None)
-    self.validate_image(image)
-    return self.save_image(instance, 'profile_image', image)
+    class Meta:
+        model = Profile
+        fields = '__all__'
+
+    def create(self, validated_data):
+        image = validated_data.pop('profile_image', None)
+        profile = super().create(validated_data)
+        self.validate_image(image)
+        return self.save_image(profile, 'profile_image', image)
+
+    def update(self, instance, validated_data):
+        image = validated_data.pop('profile_image', None)
+        self.validate_image(image)
+        return self.save_image(instance, 'profile_image', image)

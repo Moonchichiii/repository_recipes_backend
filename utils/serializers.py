@@ -1,4 +1,3 @@
-from utils.serializers import ImageUploadMixin
 from rest_framework import serializers
 from .image_service import upload_image
 

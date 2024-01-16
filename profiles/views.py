@@ -2,7 +2,8 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from .models import Profile
 from .serializers import ProfileSerializer
-from .permissions import IsOwnerOrReadOnly
+from utils.permissions import IsOwnerOrReadOnly
+
 
 # Create your views here.
 

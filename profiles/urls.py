@@ -5,6 +5,7 @@ from .views import ProfileViewSet
 router = DefaultRouter()
 router.register(r'', ProfileViewSet)
 
+APP_NAME = 'profiles'
 urlpatterns = [
     path('', include(router.urls)),
 ]

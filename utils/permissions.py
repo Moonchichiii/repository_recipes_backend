@@ -8,6 +8,8 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         return obj.user == request.user
 
 
-class IsSuperUser(permissions.BasePermission):
+class IsAuthenticatedOrReadOnlyForPost(permissions.BasePermission):
     def has_permission(self, request, view):
-        return request.user and request.user.is_superuser
+        if request.method in permissions.SAFE_METHODS:
+            return True  
+        return request.user.is_authenticated
