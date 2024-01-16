@@ -1,8 +1,9 @@
 from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated, AllowAny  # Import AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny 
 from rest_framework.response import Response
+from rest_framework.exceptions import ValidationError
 from rest_framework.views import APIView
 from rest_framework import generics, serializers
 from .serializers import UserRegistrationSerializer
@@ -11,8 +12,8 @@ class UserRegistrationView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserRegistrationSerializer
 
-    authentication_classes = []  # No authentication required for registration
-    permission_classes = [AllowAny]  # Allow any user to register
+    authentication_classes = []
+    permission_classes = [AllowAny]
 
     def perform_create(self, serializer):
         password = serializer.validated_data['password']
@@ -21,9 +22,12 @@ class UserRegistrationView(generics.CreateAPIView):
         if password != confirm_password:
             raise serializers.ValidationError("Passwords do not match")
 
-        user = serializer.save()
-        token, created = Token.objects.get_or_create(user=user)
-        return token.key
+        try:
+            user = serializer.save()
+            token, created = Token.objects.get_or_create(user=user)
+            return token.key
+        except ValidationError as e:
+            return Response({"error": e.detail}, status=status.HTTP_400_BAD_REQUEST)
 
 class UserLogoutView(APIView):
     """

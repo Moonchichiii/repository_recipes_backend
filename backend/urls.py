@@ -1,9 +1,11 @@
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import permissions
+
 from rest_framework.routers import DefaultRouter
-from rest_framework.schemas import get_schema_view
-from rest_framework.documentation import include_docs_urls
+
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+
+
 
 router = DefaultRouter()
 
@@ -21,6 +23,7 @@ urlpatterns = [
     path('api/', include(router.urls)),      
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),  
     
-    path('docs/', include_docs_urls(title='API Documentation', public=True, permission_classes=[permissions.AllowAny])),
-    path('schema/', get_schema_view(title='API Schema', public=True, permission_classes=[permissions.AllowAny])),
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),    
+    
 ]
