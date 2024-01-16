@@ -15,9 +15,12 @@ urlpatterns = [
     path('comments/', include('comments.urls')),
     path('likes/', include('likes.urls')),
     path('followers/', include('followers.urls')),
+    
     path('api/followers/', include('followers.urls')),
-    path('api/', include(router.urls)),  
+    
+    path('api/', include(router.urls)),      
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),  
-    path('docs/', include_docs_urls(title='Your API Documentation', public=True, permission_classes=[permissions.AllowAny])),
-    path('schema/', get_schema_view(title='Your API Schema', public=True, permission_classes=[permissions.AllowAny])),
+    
+    path('docs/', include_docs_urls(title='API Documentation', public=True, permission_classes=[permissions.AllowAny])),
+    path('schema/', get_schema_view(title='API Schema', public=True, permission_classes=[permissions.AllowAny])),
 ]

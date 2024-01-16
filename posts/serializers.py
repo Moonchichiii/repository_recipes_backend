@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from utils.serializers import ImageUploadMixin 
+
+from .models import Post
 class PostSerializer(ImageUploadMixin, serializers.ModelSerializer):
     post_image = serializers.ImageField(write_only=True, required=False)
 
